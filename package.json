@@ -23,7 +23,12 @@
     "dev": "pnpm run \"/dev:/\""
   },
   "devDependencies": {
+    "@types/express": "^5.0.1",
     "@types/node": "^22.15.17",
+    "playwright": "^1.52.0",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }
