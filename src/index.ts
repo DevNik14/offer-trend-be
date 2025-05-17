@@ -1,7 +1,17 @@
 import express from "express"
 import { chromium } from "playwright"
 
+import runDB from "./config/db.js";
+import start from "./config/express.js";
+
 const app = express();
+
+start();
+
+runDB()
+  .then(() => console.log("connected"))
+  .catch(console.log);
+
 let greet: string | undefined = "";
 
 (async () => {
@@ -23,13 +33,3 @@ let greet: string | undefined = "";
   await context.close();
   await browser.close();
 })();
-
-app.get("/", (req, res) => {
-  res.write(greet);
-  res.end()
-})
-
-app.listen(3000, () => {
-  console.log("listening");
-
-})
