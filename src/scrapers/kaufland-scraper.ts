@@ -12,18 +12,21 @@ export default async function scrape() {
 
   await page.goto("https://www.kaufland.bg/aktualni-predlozheniya/oferti.html?kloffer-category=0001_TopArticle/");
 
+  await page.$$eval(".k-grid__show-more", offers => offers.forEach(offer => offer.click()));
 
-  await page.$$eval(".k-grid__show-more", offers => offers.forEach(offer => offer.click()))
-
-  const allItems = await page.$$eval(".k-grid__item", items => {
-    const titles: string[] = [];
+  const allItems = await page.$$eval(".k-product-tile", items => {
+    const products: Array<{}> = [];
     items.forEach(item => {
-      const itemTitle = item.querySelector(".k-product-tile__title").textContent;
-      titles.push(itemTitle);
+      const name = item.querySelector(".k-product-tile__title").textContent;
+      const description = item.querySelector(".k-product-tile__subtitle").textContent;
+      const unitPrice = item.querySelector(".k-price-tag__price").textContent;
+      const basePrice = item.querySelector(".k-product-tile__base-price").textContent;
+      products.push({ name, description, unitPrice, basePrice });
     })
-    return titles;
+    return products;
   })
 
+  console.log(allItems[1]);
 
-
+  await browser.close();
 }
