@@ -1,7 +1,8 @@
 import { chromium } from "playwright";
 
-export default async function scrape() {
+import { KauflandProduct } from "../types/products.js";
 
+export default async function scrape() {
   const browser = await chromium.launch();
   const context = await browser.newContext();
   const page = await context.newPage();
@@ -15,18 +16,19 @@ export default async function scrape() {
   await page.$$eval(".k-grid__show-more", offers => offers.forEach(offer => offer.click()));
 
   const allItems = await page.$$eval(".k-product-tile", items => {
-    const products: Array<{}> = [];
+    const products: Array<KauflandProduct> = [];
     items.forEach(item => {
       const name = item.querySelector(".k-product-tile__title").textContent;
-      const description = item.querySelector(".k-product-tile__subtitle").textContent;
-      const unitPrice = item.querySelector(".k-price-tag__price").textContent;
-      const basePrice = item.querySelector(".k-product-tile__base-price").textContent;
+      const description = item.querySelector(".k-product-tile__subtitle").textContent.replace("\n", " ");
+      const unitPrice = item.querySelector(".k-price-tag__price").textContent.trim();
+      const basePrice = item.querySelector(".k-product-tile__base-price").textContent.slice(1, -1);
+
       products.push({ name, description, unitPrice, basePrice });
     })
     return products;
   })
 
-  console.log(allItems[1]);
+  console.log(allItems[9]);
 
   await browser.close();
 }
