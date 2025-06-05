@@ -22,13 +22,11 @@ export default async function scrape() {
       const description = item.querySelector(".k-product-tile__subtitle").textContent.replace("\n", " ");
       const unitPrice = item.querySelector(".k-price-tag__price").textContent.trim();
       const basePrice = item.querySelector(".k-product-tile__base-price").textContent.slice(1, -1);
-
-      products.push({ name, description, unitPrice, basePrice });
+      const image = item.querySelector(".k-product-tile__image img").src
+      products.push({ name, description, unitPrice, basePrice, image });
     })
     return products;
   })
+  return allItems;
 
-  console.log(allItems[9]);
-
-  await browser.close();
 }
