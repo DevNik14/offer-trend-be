@@ -15,12 +15,12 @@ export default async function scrape() {
 
   await page.$$eval(".k-grid__show-more", offers => offers.forEach(offer => offer.click()));
 
-  const allItems = await page.$$eval(".k-product-tile", items => {
+  const allItems = await page.$$eval(".k-grid__item", items => {
     const products: Array<KauflandProduct> = [];
     items.forEach(item => {
       const name = item.querySelector(".k-product-tile__title").textContent;
       const description = item.querySelector(".k-product-tile__subtitle").textContent.replace("\n", " ");
-      const unitPrice = item.querySelector(".k-price-tag__price").textContent.trim();
+      const unitPrice = item.querySelector(".k-product-tile__unit-price").textContent.trim();
       const basePrice = item.querySelector(".k-product-tile__base-price").textContent.slice(1, -1);
       const image = item.querySelector(".k-product-tile__image img").src
       products.push({ name, description, unitPrice, basePrice, image });
@@ -28,5 +28,4 @@ export default async function scrape() {
     return products;
   })
   return allItems;
-
 }
