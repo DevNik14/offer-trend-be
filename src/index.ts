@@ -5,8 +5,10 @@ import scrape from "./scrapers/kaufland-scraper.js";
 
 start();
 
-runDB()
-  .then(() => console.log("connected"))
-  .catch(console.log);
+// runDB()
+//   .then(() => console.log("connected"))
+//   .catch(console.log);
 
 connectToCloudinary();
+
+// scrape().then(data => console.log(data));
