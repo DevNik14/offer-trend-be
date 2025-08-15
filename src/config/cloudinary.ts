@@ -1,4 +1,5 @@
 import determinePath from '../utils/determinePath.js';
+import determineSlash from '../utils/determineSlash.js';
 
 import { v2 as cloudinary } from 'cloudinary';
 import pLimit from 'p-limit';
@@ -24,7 +25,6 @@ export default async function connectToCloudinary() {
 
   console.log(kauflandImages);
 
-
   const options = {
     use_filename: true,
     asset_folder: "kaufland",
@@ -45,7 +45,7 @@ export default async function connectToCloudinary() {
 
   const imagesTpUpload = kauflandImages.map(image => {
     return limit(async () => {
-      const imageName = image.split("\\").slice(-1)[0]?.split(".")[0];
+      const imageName = image.split(determineSlash).slice(-1)[0]?.split(".")[0];
       try {
         const imageData = await cloudinary.uploader.upload(image, { ...options, public_id: imageName });
         return imageData;

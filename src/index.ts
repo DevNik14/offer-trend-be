@@ -2,6 +2,7 @@ import connectToCloudinary from "./config/cloudinary.js";
 import runDB from "./config/db.js";
 import start from "./config/express.js";
 import scrape from "./scrapers/kaufland-scraper.js";
+import downloadeImage from "./utils/downloadImage.js";
 
 start();
 
@@ -9,6 +10,8 @@ start();
 //   .then(() => console.log("connected"))
 //   .catch(console.log);
 
-connectToCloudinary();
+// connectToCloudinary();
 
-// scrape().then(data => console.log(data));
+scrape()
+  .then(data => data.slice(0, 2).forEach(product => downloadeImage(product.image)))
+  .then(() => connectToCloudinary())
