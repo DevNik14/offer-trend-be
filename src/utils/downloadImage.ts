@@ -9,7 +9,6 @@ const downloadeImage = (url: string) => {
     fileName: createImageName,
     override: { skip: true }
   });
-  console.log(createImageName);
 
   dl.on('end', () => console.log('Download Completed'));
   dl.on('error', (err) => console.log('Download Failed', err));
