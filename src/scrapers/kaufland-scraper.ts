@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-import { KauflandProduct } from "../types/products.ts";
+import { KauflandProduct } from "../types/products.js";
 
 export default async function scrape() {
   const browser = await chromium.launch();
@@ -22,8 +22,11 @@ export default async function scrape() {
       const description = item.querySelector(".k-product-tile__subtitle").textContent.replace("\n", " ");
       const unitPrice = item.querySelector(".k-product-tile__unit-price").textContent.trim();
       const basePrice = item.querySelector(".k-product-tile__base-price").textContent.slice(1, -1);
-      const image = item.querySelector(".k-product-tile__image img").src
-      products.push({ name, description, unitPrice, basePrice, image });
+      const priceTagDiscount = item.querySelector(".k-price-tag__discount").textContent;
+      const priceTag = item.querySelector(".k-price-tag__price").textContent;
+      const oldPriceTag = item.querySelector(".k-price-tag__old-price").textContent;
+      const image = item.querySelector(".k-product-tile__image img").src;
+      products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag });
     })
     return products;
   })

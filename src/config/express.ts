@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import userController from "../controllers/user-controller.ts";
-import homeController from "../controllers/home-controller.ts"
-import productsController from "../controllers/products-controller.ts";
+import userController from "../controllers/user-controller.js";
+import homeController from "../controllers/home-controller.js"
+import productsController from "../controllers/products-controller.js";
 
 export default async function start() {
   const app = express();
