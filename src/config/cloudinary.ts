@@ -1,5 +1,5 @@
-import determinePath from '../utils/determinePath.js';
-import determineSlash from '../utils/determineSlash.js';
+import determinePath from '../utils/determinePath.ts';
+import determineSlash from '../utils/determineSlash.ts';
 
 import { v2 as cloudinary } from 'cloudinary';
 import pLimit from 'p-limit';

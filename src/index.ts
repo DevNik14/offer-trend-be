@@ -1,5 +1,5 @@
-import runDB from "./config/db.js";
-import start from "./config/express.js";
+import runDB from "./config/db.ts";
+import start from "./config/express.ts";
 
 start();
 

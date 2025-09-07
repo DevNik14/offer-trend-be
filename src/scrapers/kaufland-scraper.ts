@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-import { KauflandProduct } from "../types/products.js";
+import { KauflandProduct } from "../types/products.ts";
 
 export default async function scrape() {
   const browser = await chromium.launch();
