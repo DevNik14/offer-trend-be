@@ -24,7 +24,10 @@ export default async function scrape() {
       const basePrice = item.querySelector(".k-product-tile__base-price").textContent.slice(1, -1);
       const priceTagDiscount = item.querySelector(".k-price-tag__discount").textContent;
       const priceTag = item.querySelector(".k-price-tag__price").textContent;
-      const oldPriceTag = item.querySelector(".k-price-tag__old-price").textContent;
+      const oldPriceTag = item.querySelector(".k-price-tag__old-price span")
+        ? item.querySelector(".k-price-tag__old-price span").textContent
+        : "";
+
       const image = item.querySelector(".k-product-tile__image img").src;
       products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag });
     })

@@ -4,7 +4,7 @@ export type KauflandProduct = {
   unitPrice: string,
   basePrice: string,
   image: string,
-  priceTagDiscount: string
+  priceTagDiscount: string,
   priceTag: string,
   oldPriceTag: string
 }

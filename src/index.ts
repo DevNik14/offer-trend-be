@@ -8,4 +8,4 @@ runDB()
   .then(() => console.log("connected"))
   .catch(console.log);
 
-scrape().then(data => console.log(data))
+// scrape().then(data => console.log(data))
