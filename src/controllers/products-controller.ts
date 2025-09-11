@@ -10,7 +10,7 @@ router.get("/kaufland", async (req, res) => {
   if (data.length > 0) {
     res.status(200).send(data);
   } else {
-    res.status(404).send("No products at this times");
+    res.status(204).send();
   }
 })
 
