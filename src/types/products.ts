@@ -1,4 +1,5 @@
 export type KauflandProduct = {
+  id: string,
   name: string,
   description: string,
   unitPrice: string,

@@ -29,7 +29,8 @@ export default async function scrape() {
         : "";
 
       const image = item.querySelector(".k-product-tile__image img").src;
-      products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag });
+      const id = image.split("_")[1]
+      products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id });
     })
     return products;
   })

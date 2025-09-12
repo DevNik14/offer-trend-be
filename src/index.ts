@@ -4,8 +4,6 @@ import scrape from "./scrapers/kaufland-scraper.js";
 
 start();
 
-runDB()
-  .then(() => console.log("connected"))
-  .catch(console.log);
-
-// scrape().then(data => console.log(data))
+// runDB()
+//   .then(() => console.log("connected"))
+//   .catch(console.log);
