@@ -1,10 +1,18 @@
-import { connect } from "mongoose";
-import dotenv from "dotenv";
+import sqlite from "sqlite3";
+const sql3 = sqlite.verbose();
 
-async function runDB() {
-  dotenv.config();
+const db = new sql3.Database(":memory:", sqlite.OPEN_READWRITE, (err) => {
+  if (err) {
+    console.error(err.message);
+  } else {
+    db.run('CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, title TEXT, content TEXT)', (err) => {
+      if (err) {
+        console.error(err.message);
+        return
+      }
+      console.log("Table created");
+    });
+  }
+})
 
-  await connect(process.env.DB_CONN_STRING!);
-}
-
-export default runDB;
+export default db;
