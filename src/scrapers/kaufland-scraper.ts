@@ -2,37 +2,67 @@ import { chromium } from "playwright";
 
 import { KauflandProduct } from "../types/products.js";
 
-export default async function scrape() {
+export default async function scrape(): Promise<KauflandProduct[] | "Error"> {
   const browser = await chromium.launch();
   const context = await browser.newContext();
   const page = await context.newPage();
 
+  page.setDefaultTimeout(10000);
+
   await page.goto("https://www.kaufland.bg/");
 
-  await page.locator("#onetrust-accept-btn-handler").click();
+  try {
+    const consent = page.locator("#onetrust-accept-btn-handler");
+    await consent.waitFor({ state: "visible", timeout: 3000 });
+    await consent.click();
+  } catch {
+    // consent not shown; continue
+  }
 
   await page.goto("https://www.kaufland.bg/aktualni-predlozheniya/oferti.html?kloffer-category=0001_TopArticle/");
 
-  await page.$$eval(".k-grid__show-more", offers => offers.forEach(offer => offer.click()));
+  try {
+    await page.$$eval(".k-grid__show-more", offers => offers.forEach(offer => offer.click()));
+  } catch {
+    // no show-more buttons found; continue
+  }
 
-  const allItems = await page.$$eval(".k-grid__item", items => {
-    const products: Array<KauflandProduct> = [];
-    items.forEach(item => {
-      const name = item.querySelector(".k-product-tile__title").textContent;
-      const description = item.querySelector(".k-product-tile__subtitle").textContent.replace("\n", " ");
-      const unitPrice = item.querySelector(".k-product-tile__unit-price").textContent.trim();
-      const basePrice = item.querySelector(".k-product-tile__base-price").textContent.slice(1, -1);
-      const priceTagDiscount = item.querySelector(".k-price-tag__discount").textContent;
-      const priceTag = item.querySelector(".k-price-tag__price").textContent;
-      const oldPriceTag = item.querySelector(".k-price-tag__old-price span")
-        ? item.querySelector(".k-price-tag__old-price span").textContent
-        : "";
+  await page.waitForSelector(".k-grid__item", { state: "attached" });
 
-      const image = item.querySelector(".k-product-tile__image img").src;
-      const id = image.split("_")[1]
-      products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id });
+  try {
+    const allItems = await page.$$eval(".k-grid__item", items => {
+      const products: any[] = [];
+      items.forEach(item => {
+        const titleEl = item.querySelector(".k-product-tile__title");
+        const subtitlesEl = item.querySelector(".k-product-tile__subtitles");
+        const unitPriceEl = item.querySelector(".k-product-tile__unit-price");
+        const basePriceEl = item.querySelector(".k-product-tile__base-price");
+        const discountEl = item.querySelector(".k-price-tag__discount");
+        const priceEl = item.querySelector(".k-price-tag__price");
+        const oldPriceEl = item.querySelector(".k-price-tag__old-price span");
+        const imageEl = item.querySelector(".k-product-tile__image img") as any;
+
+        const name = (titleEl?.textContent || "").trim();
+        const description = (subtitlesEl?.textContent || "").replace("\n", " ").trim();
+        const unitPrice = (unitPriceEl?.textContent || "").trim();
+        const basePriceRaw = (basePriceEl?.textContent || "").trim();
+        const basePrice = basePriceRaw.length > 2 ? basePriceRaw.slice(1, -1) : basePriceRaw;
+        const priceTagDiscount = (discountEl?.textContent || "").trim();
+        const priceTag = (priceEl?.textContent || "").trim();
+        const oldPriceTag = (oldPriceEl?.textContent || "").trim();
+        const image = imageEl?.src || "";
+        const id = image.includes("_") ? image.split("_")[1] : "";
+
+        products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id });
+      })
+      return products;
     })
-    return products;
-  })
-  return allItems;
+    return allItems;
+  } catch (err: any) {
+    console.error("Extraction error:", err?.name || err?.message || err);
+    return "Error";
+  } finally {
+    await context.close();
+    await browser.close();
+  }
 }
