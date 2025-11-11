@@ -6,10 +6,6 @@ import startDB from "./db/index.js";
 start();
 startDB();
 
-console.log(db);
-
-// scrape().then(data => console.log(data))
-
 // runDB()
 //   .then(() => console.log("connected"))
 //   .catch(console.log);
