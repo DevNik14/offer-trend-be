@@ -51,9 +51,15 @@ export default async function scrape(): Promise<KauflandProduct[] | "Error"> {
         const priceTag = (priceEl?.textContent || "").trim();
         const oldPriceTag = (oldPriceEl?.textContent || "").trim();
         const image = imageEl?.src || "";
-        const id = image.includes("_") ? image.split("_")[1] : "";
+        // const id = image.includes("/") ? image.split("/") : "";
+        const id = () => {
+          const urlParts = image.split("/");
+          //@ts-ignore
+          const lastEl = urlParts[urlParts.length - 1].split("_").sort((a, b) => b.length - a.length)[0];
+          return lastEl;
+        }
 
-        products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id });
+        products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id: id() });
       })
       return products;
     })
