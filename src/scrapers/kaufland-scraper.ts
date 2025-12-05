@@ -31,16 +31,16 @@ export default async function scrape(): Promise<KauflandProduct[] | "Error"> {
 
   try {
     const allItems = await page.$$eval(".k-grid__item", items => {
-      const products: any[] = [];
+      const products: KauflandProduct[] = [];
       items.forEach(item => {
         const titleEl = item.querySelector(".k-product-tile__title");
-        const subtitlesEl = item.querySelector(".k-product-tile__subtitles");
+        const subtitlesEl = item.querySelector(".k-product-tile__subtitle");
         const unitPriceEl = item.querySelector(".k-product-tile__unit-price");
         const basePriceEl = item.querySelector(".k-product-tile__base-price");
         const discountEl = item.querySelector(".k-price-tag__discount");
         const priceEl = item.querySelector(".k-price-tag__price");
         const oldPriceEl = item.querySelector(".k-price-tag__old-price span");
-        const imageEl = item.querySelector(".k-product-tile__image img") as any;
+        const imageEl = item.querySelector(".k-product-tile__image img");
 
         const name = (titleEl?.textContent || "").trim();
         const description = (subtitlesEl?.textContent || "").replace("\n", " ").trim();
@@ -50,16 +50,14 @@ export default async function scrape(): Promise<KauflandProduct[] | "Error"> {
         const priceTagDiscount = (discountEl?.textContent || "").trim();
         const priceTag = (priceEl?.textContent || "").trim();
         const oldPriceTag = (oldPriceEl?.textContent || "").trim();
-        const image = imageEl?.src || "";
-        // const id = image.includes("/") ? image.split("/") : "";
-        const id = () => {
-          const urlParts = image.split("/");
-          //@ts-ignore
-          const lastEl = urlParts[urlParts.length - 1].split("_").sort((a, b) => b.length - a.length)[0];
-          return lastEl;
-        }
+        const image = imageEl?.src;
+        const id = (() => {
+          const urlParts: string[] = image.split("/");
+          const lastEl = urlParts[urlParts.length - 1]!.split("_").sort((a, b) => b.length - a.length)[0];
+          return lastEl ? lastEl : "";
+        }).apply(null)
 
-        products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id: id() });
+        products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id });
       })
       return products;
     })
