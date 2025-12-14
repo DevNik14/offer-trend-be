@@ -55,7 +55,7 @@ export default async function scrape(): Promise<KauflandProduct[] | "Error"> {
           const urlParts: string[] = image.split("/");
           const lastEl = urlParts[urlParts.length - 1]!.split("_").sort((a, b) => b.length - a.length)[0];
           return lastEl ? lastEl : "";
-        }).apply(null)
+        })()
 
         products.push({ name, description, unitPrice, basePrice, image, priceTagDiscount, priceTag, oldPriceTag, id });
       })

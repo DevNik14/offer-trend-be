@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import productsController from "../controllers/products-controller.js";
+import productsController from "../controllers/kauflandProductsController.js";
 
 export default async function start() {
   const app = express();

@@ -1,6 +1,6 @@
 import express from "express";
 
-import scrape from "../scrapers/kaufland-scraper.js";
+import scrape from "../scrapers/kauflandScraper.js";
 
 const router = express.Router();
 
