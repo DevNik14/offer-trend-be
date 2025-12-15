@@ -1,17 +1,15 @@
-import express from "express";
-
+import { Response, Request } from "express";
 import scrape from "../scrapers/kauflandScraper.js";
 
-const router = express.Router();
+const data = await scrape();
 
-router.get("/kaufland", async (req, res) => {
-  const data = await scrape();
+const getKauflandProducts = async (req: Request, res: Response) => {
 
   if (data.length > 0) {
     res.status(200).send(data);
   } else {
     res.status(204).send();
   }
-})
+}
 
-export default router;
+export default getKauflandProducts;
