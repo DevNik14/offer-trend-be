@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import scrape from "../scrapers/kauflandScraper.js";
 
-const data = await scrape();
+export const data = await scrape();
 
 const getKauflandProducts = async (req: Request, res: Response) => {
 
