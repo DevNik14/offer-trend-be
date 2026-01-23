@@ -1,5 +1,8 @@
+import initDB from "../db/index.js";
 import { data } from "../controllers/kauflandProductsController.js";
 import { KauflandProduct } from "../types/products.js";
+
+const db = initDB();
 
 const constructSQLStatement = () => {
   const productKeys = Object.keys(data[0] as KauflandProduct);
