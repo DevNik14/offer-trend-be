@@ -19,9 +19,15 @@ const initSQLQUery = `CREATE TABLE IF NOT EXISTS products (
 
 
 const initDB = () => {
-
-  console.log("Not implemented");
-
+  let db;
+  if (!fs.existsSync(dbPath)) {
+    db = new Database(dbPath, { verbose: console.log });
+    db.exec(initSQLQUery);
+    console.log("Table created");
+  }
+  db = new Database(dbPath, { verbose: console.log });
+  console.log("Connected to database");
+  return db;
 }
 
 export default initDB;
