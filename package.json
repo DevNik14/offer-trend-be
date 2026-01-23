@@ -29,13 +29,14 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/cors": "^2.8.19",
+    "better-sqlite3": "^12.5.0",
     "cloudinary": "^2.6.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "node-downloader-helper": "^2.1.9",
-    "p-limit": "^6.2.0",
-    "sqlite3": "^5.1.7"
+    "p-limit": "^6.2.0"
   }
 }

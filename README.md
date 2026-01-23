@@ -13,15 +13,12 @@ Stop hunting through 5 supermarket sites every week. This tool scrapes and aggre
 
 - Filter by product, price, store
 - Weekly refreshed deals
-- [Upcoming]: Email/Telegram alerts
 
 ## Roadmap
 
 - [ ] Scrape Kaufland + Lidl (More to come)
 - [ ] Basic UI for browsing offers
-- [ ] Product search & filtering
-- [ ] Alerts for watched items
-- [ ] Mobile optimization
+- [ ] Product search, filtering and categorization
 
 ## Why?
 
