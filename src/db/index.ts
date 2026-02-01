@@ -6,7 +6,7 @@ import determineSlash from "../utils/determineSlash.js";
 const dbPath = `${process.cwd()}${determineSlash}src${determineSlash}db${determineSlash}products.db`;
 
 const initSQLQUery = `CREATE TABLE IF NOT EXISTS products (
-  id TEXT PRIMARY KEY,
+  id INTEGER PRIMARY KEY,
   name TEXT,
   description TEXT,
   unitPrice TEXT,
@@ -25,7 +25,7 @@ const initDB = () => {
     db.exec(initSQLQUery);
     console.log("Table created");
   }
-  db = new Database(dbPath, { verbose: console.log });
+  db = new Database(dbPath, { verbose: console.log, fileMustExist: true });
   console.log("Connected to database");
   return db;
 }
